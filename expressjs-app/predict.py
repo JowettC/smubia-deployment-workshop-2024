@@ -2,13 +2,14 @@ import sys
 import json
 import joblib
 
-# Load the trained model
+# Load the trained model (update the path if necessary)
 model = joblib.load('../iris_model.pkl')
 
-# Read features from arguments
-print("running script to predict")
+# Convert input string back to a list (and then to the format your model needs)
 features = json.loads(sys.argv[1])
-features = [float(i) for i in features]
+
 # Make a prediction
 prediction = model.predict([features])
-print(int(prediction[0]))
+
+# Output the prediction
+print(prediction[0])
