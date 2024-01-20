@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iris Flower Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 50px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            margin: 10px;
+            width: 200px;
+        }
+
+        .card h2 {
+            color: #555;
+            font-size: 1.2em;
+        }
+
+        .card p {
+            color: #666;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            margin: auto;
+        }
+
+        label {
+            color: #555;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type=number] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        input[type=submit] {
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type=submit]:hover {
+            background-color: #4cae4c;
+        }
+
+        #predictionResult {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .use-values-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .use-values-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Iris Flower Species Prediction</h1>
+    <form id="irisForm">
+        <label for="sepalLength">Sepal Length (cm):</label>
+        <input type="number" id="sepalLength" name="sepalLength" step="0.1">
+
+        <label for="sepalWidth">Sepal Width (cm):</label>
+        <input type="number" id="sepalWidth" name="sepalWidth" step="0.1">
+
+        <label for="petalLength">Petal Length (cm):</label>
+        <input type="number" id="petalLength" name="petalLength" step="0.1">
+
+        <label for="petalWidth">Petal Width (cm):</label>
+        <input type="number" id="petalWidth" name="petalWidth" step="0.1">
+
+        <input type="submit" value="Predict">
+    </form>
+
+    <p id="predictionResult"></p>
+    <h1>Iris Flower Species Prediction Samples</h1>
+
+    <!-- Card for Iris Setosa -->
+    <div class="card">
+        <h2>Iris Setosa</h2>
+        <p>Sepal Length: 5.1 cm</p>
+        <p>Sepal Width: 3.5 cm</p>
+        <p>Petal Length: 1.4 cm</p>
+        <p>Petal Width: 0.2 cm</p>
+        <button class="use-values-btn" onclick="populateForm([5.1, 3.5, 1.4, 0.2])">Use Values</button>
+    </div>
+
+    <!-- Card for Iris Versicolor -->
+    <div class="card">
+        <h2>Iris Versicolor</h2>
+        <p>Sepal Length: 5.9 cm</p>
+        <p>Sepal Width: 2.8 cm</p>
+        <p>Petal Length: 4.2 cm</p>
+        <p>Petal Width: 1.3 cm</p>
+        <button class="use-values-btn" onclick="populateForm([5.9, 2.8, 4.2, 1.3])">Use Values</button>
+    </div>
+
+    <!-- Card for Iris Virginica -->
+    <div class="card">
+        <h2>Iris Virginica</h2>
+        <p>Sepal Length: 6.5 cm</p>
+        <p>Sepal Width: 3.0 cm</p>
+        <p>Petal Length: 5.5 cm</p>
+        <p>Petal Width: 2.0 cm</p>
+        <button class="use-values-btn" onclick="populateForm([6.5, 3.0, 5.5, 2.0])">Use Values</button>
+    </div>
+    <script>
+        document.getElementById('irisForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const sepalLength = document.getElementById('sepalLength').value;
+            const sepalWidth = document.getElementById('sepalWidth').value;
+            const petalLength = document.getElementById('petalLength').value;
+            const petalWidth = document.getElementById('petalWidth').value;
+
+            fetch('http://localhost:3000/predict', { // Replace with your API URL
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    features: [sepalLength, sepalWidth, petalLength, petalWidth]
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('predictionResult').innerText = 'Predicted Iris Species: ' + data.prediction;
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        });
+        function populateForm(values) {
+            document.getElementById('sepalLength').value = values[0];
+            document.getElementById('sepalWidth').value = values[1];
+            document.getElementById('petalLength').value = values[2];
+            document.getElementById('petalWidth').value = values[3];
+        }
+    </script>
+</body>
+
+</html>
