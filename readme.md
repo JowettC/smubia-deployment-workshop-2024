@@ -45,4 +45,5 @@ npm i express
 2.2 Running application in background (node)
 ```
 nohup node app.js &
+ps ax | grep app.js
 ```
