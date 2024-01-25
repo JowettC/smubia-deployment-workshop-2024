@@ -22,9 +22,27 @@ pip install pandas
 <!-- build the model using "modelbuilding.py" script-->
 
 ```
+
+1.1 Running application in background (python)
+```
+nohup python app.py &
+kill [PID]
+<!-- to kill -->
+ps ax | grep app.py
+
+```
+
 2. Express js
 ```
 sudo yum update
 sudo yum install nodejs
 sudo yum install npm
+npm i python-shell
+npm i cors
+npm i express
+```
+
+2.2 Running application in background (node)
+```
+nohup node app.js &
 ```
